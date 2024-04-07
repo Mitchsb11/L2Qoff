@@ -11,6 +11,7 @@ interface CartContext {
     deliveryCost: string;
     discount: number;
     addToCart: (product: Product) => void;
+    removeFromCart: (product: Product) => void;
 }
 
 const initialState: CartContext = {
@@ -19,7 +20,8 @@ const initialState: CartContext = {
     total: 0,
     deliveryCost: "Free",
     discount: 0,
-    addToCart: (product: Product) => { }
+    addToCart: (product: Product) => { },
+    removeFromCart: (product: Product) => { }
 };
 
 export const CartContext = createContext<CartContext>(initialState);
@@ -47,6 +49,20 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setCartItems([...cartProducts, product]);
     }
 
+    const removeFromCart = (product: any) => {
+        setCartItems((cartProducts) => {
+            const newCartProducts = cartProducts.filter((cartProduct) => {
+                if (cartProduct.id === product.id) {
+                    if (cartProduct.color === product.color) {
+                        return false;
+                    }
+                }
+                return true;
+            })
+            localStorage.setItem('cart', JSON.stringify(newCartProducts));
+            return newCartProducts;
+        })
+    }
     const countTotal = () => {
         return cartProducts.reduce((acc, product) => {
             if (product) {
@@ -67,7 +83,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
             total: countTotal(),
             deliveryCost: "Free",
             discount: 0,
-            addToCart
+            addToCart,
+            removeFromCart
         }
     }, [cartProducts])
 

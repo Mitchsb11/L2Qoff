@@ -9,6 +9,11 @@ export const Produit: CollectionConfig = {
             required: true,
         },
         {
+            name: 'name',
+            type: 'text',
+            required: true,
+        },
+        {
             name: 'description',
             type: 'textarea',
             required: true,
@@ -47,11 +52,7 @@ export const Produit: CollectionConfig = {
             name: 'priceDiscounted',
             type: 'number',
         },
-        {
-            name: 'name',
-            type: 'text',
-            required: true,
-        },
+
         {
             name: 'priceRev',
             type: 'number',

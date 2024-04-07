@@ -39,7 +39,7 @@ const Navbar = () => {
                                         <UserButton afterSignOutUrl="/" />
                                         :
                                         <Button>
-                                            <Link href="/sign-in">
+                                            <Link href="/auth">
                                                 Sign Up
                                             </Link>
                                         </Button>

@@ -1,6 +1,6 @@
 "use client"
 
-import { SeparatorHorizontal, ShoppingCart } from "lucide-react"
+import { SeparatorHorizontal, ShoppingCart, X } from "lucide-react"
 import { Button } from "./ui/button"
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTrigger } from "./ui/sheet"
 import Link from "next/link";
@@ -8,6 +8,7 @@ import { Separator } from "./separator";
 import { useCart } from "../Providers/cart-provider";
 import { formatPrice } from "../lib/utils";
 import { Produit } from "../payload-types";
+import { Product as ProductType } from "../types/product";
 
 
 const Cart = () => {
@@ -91,10 +92,11 @@ export default Cart
 
 
 
-const Product = ({ product }: { product: Produit }) => {
+const Product = ({ product }: { product: ProductType }) => {
+    const { removeFromCart } = useCart()
 
     return (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between relative">
             <Link href={`/product/${product.id}`} className="w-1/3">
                 <img
                     className=" h-auto rounded-lg border-2 border-gray-200"
@@ -127,6 +129,11 @@ const Product = ({ product }: { product: Produit }) => {
                     </div>
                 </div>
             </div>
+            <a onClick={() => removeFromCart(product)}
+                className=" absolute top-0 right-0 p-1 hover:bg-gray-200 hover:rounded-md hover:cursor-pointer"
+            >
+                <X size={15} />
+            </a>
         </div>
     );
 };
