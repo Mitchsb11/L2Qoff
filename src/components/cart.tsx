@@ -1,13 +1,12 @@
 "use client"
 
-import { SeparatorHorizontal, ShoppingCart, X } from "lucide-react"
+import { Loader2, ShoppingCart, X } from "lucide-react"
 import { Button } from "./ui/button"
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTrigger } from "./ui/sheet"
 import Link from "next/link";
 import { Separator } from "./separator";
 import { useCart } from "../Providers/cart-provider";
 import { formatPrice } from "../lib/utils";
-import { Produit } from "../payload-types";
 import { Product as ProductType } from "../types/product";
 
 
@@ -17,9 +16,15 @@ const Cart = () => {
     return (
         <Sheet >
             <SheetTrigger className="flex flex-row items-center m-0" asChild>
-                <div className="pl-2.5 w-[4.5vh] h-[4.4vh] sm:h-11 sm:w-16 bg-black hover:bg-gray-800 hover:cursor-pointer rounded-md items-center justify-center align-middle">
+                <div className="px-2 flex items-center justify-center gap-3 w-fit h-[4.4vh] sm:h-11 sm:w-16 bg-black hover:bg-gray-800 hover:cursor-pointer rounded-md items-center justify-center align-middle">
                     <ShoppingCart className="text-white" />
-                    <span className="text-white pr-2.5 pl-2">{cartItems}</span>
+                    <div className="w-5/12 flex items-center justify-center">
+                        {(cartItems && cartItems > 0) ?
+                            <span className="text-white">{cartItems}</span>
+                            :
+                            <Loader2 color="white" size={16} className="animate-spin" />
+                        }
+                    </div>
                 </div>
 
             </SheetTrigger>
@@ -27,13 +32,13 @@ const Cart = () => {
                 <SheetHeader className="text-lg mb-2.5 justify-center align-middle text-center items-center">
                     Cart
                 </SheetHeader>
-                {cartItems > 0 ? (
+                {(cartItems && cartItems > 0) ? (
                     <>
                         <div>
                             <Separator className="border border-grey-500 mb-2.5" />
                             cart Items
                         </div>
-                        {cartProducts.map((product, index) => (
+                        {cartProducts?.map((product, index) => (
                             <Product product={product} />
                         ))}
                         {true && (
@@ -61,7 +66,7 @@ const Cart = () => {
                         <Separator className="border border-grey-500 mt-2.5 mb-2.5" />
                         <div className="flex flex-row ">
                             <span className="flex-1">TOTAL</span>
-                            <span>{formatPrice(total)}</span>
+                            <span>{formatPrice(total!)}</span>
                         </div>
 
                     </>
